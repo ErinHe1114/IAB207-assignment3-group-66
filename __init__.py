@@ -51,7 +51,7 @@ def create_app():
     from . import auth
     app.register_blueprint(auth.bp)
     
-    return aoo
+    return app
 
 
 

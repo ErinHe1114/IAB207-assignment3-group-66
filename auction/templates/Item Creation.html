@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block body %}
+
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        <a class="text-muted" href="{{ url_for('main.itemcreation') }}">Item Creation</a>
+        <a class="text-muted" href="{{ url_for('main.watchlist') }}">___Watchlist</a>
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-dark" href="{{ url_for('main.index') }}">Listing Details</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="text-muted" href="#" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+        </a>
+        <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('auth.authenticate') }}">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col">
+                <div class="form-group row" style="padding-top: 6%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 10%; padding-top: 5; padding-right: 1%;">Categort:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:10%;">
+                    <select class="form-control" size="0">
+                      <option value="Latest consignment">
+                        Latest conginment
+                      </option>
+                      <option value="Retro">
+                        Retro
+                      </option>
+                      <option value="Limited edition">
+                        Limited edition
+                      </option>
+                      <option value="Minimalist">
+                        Minimalist
+                      </option>
+                      <option value="Self winding">
+                        Self winding
+                      </option>
+                      <option value="Military">
+                        Military
+                      </option>
+                      <option value="Sport">
+                          Sport
+                          </option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 4.5%; padding-top: 5; padding-right: 1%;">Product Name:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:10%;">
+                    <input class="form-control" type="text" value="">
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 14%; padding-top: 5; padding-right: 1%;">Brand:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:10%;">
+                    <select class="form-control" id="Brand_item" size="0">
+                      <option value="Omega">
+                        Omega
+                      </option>
+                      <option value="Tudor">
+                        Tudor
+                      </option>
+                      <option value="Piaget">
+                        Piaget
+                      </option>
+                      <option value="Breitling">
+                       Breitling
+                      </option>
+                      <option value="IWC">
+                        IWC
+                      </option>
+                      <option value="Rolex">
+                        Rolex
+                      </option>
+                      <option value="Vacheron Constantin">
+                        Vacheron Constantin
+                      </option>
+                      <option value="Patek Philippe">
+                        Patek Philippe
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 12%; padding-top: 5; padding-right: 1%;">Size:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:10%;">
+                    <select class="form-control" id="product_size" size="0">
+                      <option value="32mm">
+                        32mm
+                      </option>
+                      <option value="34mm">
+                        34mm
+                      </option>
+                      <option value="36mm">
+                        36mm
+                      </option>
+                      <option value="38mm">
+                        38mm
+                      </option>
+                      <option value="40mm">
+                        40mm
+                      </option>
+                       
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 13%; padding-top: 5; padding-right: 1%;">Current Price:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:40%;">
+                    <input class="form-control" type="text" value="">
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 10%; padding-top: 5; padding-right: 1%;">Condition:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:40%;">
+                    <select class="form-control" id="Brand_item" size="0">
+                      <option value="Brand_New">
+                        Brand New
+                      </option>
+                      <option value="Like_New">
+                        Like New
+                      </option>
+                      <option value="New_Used">
+                        New Used
+                      </option>
+                      <option value="Used">
+                        Used
+                      </option>
+                      <option value="Refurbished">
+                        Refurbished
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 11%; padding-top: 5; padding-right: 1%;">Quantity:</label>
+                  <div class="col-lg-9" style="padding-left:0%; padding-right:70%;">
+                    <input type="number" value="1" min="1" max="1000" step="1"/>
+                  </div>
+                </div>
+                <div class="form-group row" style="padding-top: 0.5%; padding-right: 10%">
+                  <label class="col-lg-3 col-form-label form-control-label" style="padding-left: 4.5%; padding-top: 5; padding-right: 0%;">On Going Line:</label>
+                  <div class="col-lg-9" style="padding-left: 0%;">
+                    <div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 0%;">
+                      <button type="button" class="btn btn-secondary">Yes</button>
+                      <button type="button" class="btn btn-secondary">No</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class = "row">
+                <div class = "col" style="padding-top: 10%">
+                  <div class = "listing-image" style="margin-left: 5%; margin-right: 100;">
+                    <input type='file' onchange="readURL(this);" />
+                    <div style = "margin-left: 0%;">
+                      <img id="blah" src="http://placehold.it/300" alt="your image" />
+                    </div>
+                  </div>
+                </div>
+                <div class = "col" style="padding-top: 10%; padding-left: 0;">
+                  <div class="form-group">
+                    <label for="description" class="col-md-3 control-label" style = "color:black; max-width: 100%;">Product Description</label>
+                    <div class="col-sm-10">
+                    <textarea class="form-control" name="addDescription" id="addDescription" rows="5"></textarea>
+                    <div class="Product-SellConfirm" style="text-align: center; padding-top: 3%;">
+                      <button type="button" style = "margin-top: 5%;"class="btn btn-success btn-circle text-uppercase">Confirm Listing</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="vl"></div>
+          <div class="col">
+          </div>
+          </div>
+          <hr>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Copyright &copy; Online Bid Watch Store </p>
+  </footer>
+  {% endblock %}

@@ -1,0 +1,254 @@
+{% extends "common.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block subtitle %}
+{{subtitle}}
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 text-muted" href="#">Category</a>
+      <a class="p-2 text-muted" href="#">Latest consignment</a>
+      <a class="p-2 text-muted" href="#">Retro</a>
+      <a class="p-2 text-muted" href="#">Limited edition</a>
+      <a class="p-2 text-muted" href="#">minimalist</a>
+      <a class="p-2 text-muted" href="#">Self winding</a>
+      <a class="p-2 text-muted" href="#">Military</a>
+      <a class="p-2 text-muted" href="#">Sport</a>
+    </nav>
+  </div>
+
+    
+    <nav class="nav">
+        <a class="nav-link active" href="#">Category></a>
+        <a class="nav-link" href="#">Self winding></a>
+        <a class="nav-link" href="#">Brand></a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Girand Perregaux</a>
+      </nav>
+      <section>
+        <h2 style="text-align:center"><b> Girard Perregaux</b> </h2>
+        </section>
+        <div class="alert alert-success" id="success" style="display: none;">success</div>
+        <div class="alert alert-danger" id="fail" style="display: none;">fail</div>
+        <div class="alert alert-warning" id="warning" style="display: none;">warning</div>
+        <div class="row">
+
+            <div class="card col-sm-6">
+                  <article>
+                      <a href="#" class="card-img-top" target="_blank"><img src="{{url_for('static', filename='datas/'+detail.fileurl)}}" style="width:35vw;height:35vw;" alt="Rolex_oyster"></a>
+
+                  </article>
+            </div>
+          
+          
+            <div class="card col-sm-6">
+                <article>
+                      <h5>{{detail.name}}</h5>
+                      <p>SKELETON
+                      </p>
+                    </article>
+                        
+                        <!-- <p>A model following the design spirit of the watches of the 1960s and a tribute to Girard-Perregaux’s technical advances in the field of chronometry, crowned by the Neuchâtel Observatory Centenary Prize...</p> -->
+                        <p><b>Details: </b>{{detail.description}}</p>
+                        
+                       
+                            <div class="card row-md-4">
+        
+          
+                        <h4 style = "text-align: left">Current Price: $ {{detail.price}}</h4>
+          
+                        <h4 style = "text-align: left">Minimum bid: $ {{detail.price}}</h4>
+                          <label for="Maximum">Enter you maximum bid:</label><span></span>
+                          <textarea id="Maximum" rows="1" cols="1"></textarea>
+                          <a class="nav-link" href="javascript:void(0)">Place Bid</a>
+                          </div>
+                      <span>
+                        <button type="button" style="height:5vw; width:20vw" class="btn btn-outline-secondary" data-id="{{detail.id}}" onclick="bidWatch(this)">Bid It Now</button>
+                          <button type="button" style="height:5vw; width:20vw"class="btn btn-outline-secondary" data-id="{{detail.id}}" onclick="addWatchlist(this)">Add to Watchlist</button>
+                      </span>
+            
+          
+                  </article>
+                </div>
+
+            </article>
+                </div>
+
+                <body>  
+  
+                    <div class="article-container">
+                            
+                            <div class="article_head">
+                                <h1 class="title">Reviews</h1>    
+                            </div>
+                            <!-- <img class="imgcss"  src="images/man.jpg" style="width:2vw;">
+                                 <p>Ben:"Fortunately, the movement and shell technology is excellent, and always limited production, especially the VC Malte hollow-out watch, is simply a work of art! "</p> -->
+                            </div>
+                            <!-- <hr/> -->
+                            
+                            {% for item in comment %}
+                            <div class="comment">
+                              <div class="imgdiv">
+                                 <img class="imgcss"  src="images/man.jpg" style="width:2vw;">
+                              </div>
+                              <div class="conmment_details">
+                                 <div style="float:left;">
+                                   <span class="comment_name">{{item[5]}}: </span>     
+                                   
+                                 </div>
+                                 
+                                  <div class="comment_content" >{{item[3]}}</div>
+                             </div> </div>
+                         <hr>
+                            {% endfor %}
+                              <!-- <div class="comment">
+                                 <div class="imgdiv">
+                                    <img class="imgcss"  src="images/man.jpg" style="width:2vw;">
+                                 </div>
+                                 <div class="conmment_details">
+                                    <div style="float:left;">
+                                      <span class="comment_name">Jessica: </span>     
+                                      
+                                    </div>
+                                    
+                                     <div class="comment_content" >  "The comments section, the watches everyone buys there, how to choose, how to maintain, where to repair, and more... I hope you will put their own experience more to write out."
+                                    </div>
+                                </div> </div>
+                            <hr>
+                         
+                        <div class="comment">
+                                 <div class="imgdiv">
+                                    <img class="imgcss"  src="images/man.jpg" style="width:2vw;">
+                                 </div>
+                                 <div class="conmment_details">
+                                    <div style="float:left;">
+                                      <span class="comment_name">Tompson: </span>    
+                                    </div>
+                    
+                                     <div class="comment_content" >  "Many products of the same brand are different, so according to its proportion, classified as super, indicating that it is good at complex function table, and complex function table accounts for a considerable proportion in its products, or the machine polishing enough level, brand positioning is high.""
+                                    </div>
+                                </div></div>
+                            <hr>
+                    
+                         <div class="comment">
+                                 <div class="imgdiv">
+                                    <img class="imgcss"  src="images/man.jpg" style="width:2vw;">
+                                 </div>
+                                 <div class="conmment_details">
+                                    <div style="float:left;">
+                                      <span class="comment_name">James:  "The watch was just auctioned. It was perfect for wearing it on any occasion."</span>    
+                                      
+                                    </div>           
+                            
+                         
+                     
+                    </div>
+                    </div> -->
+
+
+                    <body>
+                     
+                        <form>
+                            <table>
+                                <tr>
+                                    <td>Write my comment</td>
+                                    <td>
+                                        <input type="text" style="width:420px;height:100px" id="mycomment">
+                                        <input type="button" style="width:60px;height:30px;" value="submit" name="bt" data-id="{{detail.id}}" onclick="addReviews(this)"  />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                     
+                    </body>
+
+
+                    <script>
+                      function addWatchlist(e){
+                        console.log($(e).attr('data-id'));
+                        let params={
+                          id:$(e).attr('data-id')
+                        }
+                        $.post('/addwatchlist',params,function(data,status){
+                          console.log(data);
+                          if(data=='success'){
+                            alert(data)
+                            window.location.reload()
+                          }else{
+                           alert(data)
+                          }
+                        })
+                      }
+                      function bidWatch(e){
+                        $('#success').hide()
+                        $('#fail').hide()
+                        $('#warning').hide()
+                        console.log($(e).attr('data-id'));
+                        let params={
+                          id:$(e).attr('data-id'),
+                          price:$('#Maximum').val()
+                        }
+                        if(!params.price){
+                          $('#warning').html('Enter Bid Price')
+                          $('#warning').show()
+                          return;
+                        }
+                        $.post('/bidwatch',params,function(data,status){
+                          console.log(data);
+                          if(data=='success'){
+                            $('#success').html(data)
+                            $('#success').show()
+                            setTimeout(() => {
+                              window.location.reload()
+                            }, 1500);
+                          }else{
+                            $('#fail').html(data)
+                            $('#fail').show()
+                          }
+                        })
+                      }
+                      function addReviews(e){
+                        $('#success').hide()
+                        $('#fail').hide()
+                        $('#warning').hide()
+                        console.log($(e).attr('data-id'));
+                        let params={
+                          id:$(e).attr('data-id'),
+                          comment:$('#mycomment').val()
+                        }
+                        if(!params.comment){
+                          $('#warning').html('Enter Upload Img')
+                          $('#warning').show()
+                          return;
+                        }
+                        $.post('/addreviews',params,function(data,status){
+                          console.log(data);
+                          if(data=='success'){
+                            alert(data)
+                            window.location.reload()
+                          }else{
+                           alert(data)
+                          }
+                        })
+                      }
+                    </script>
+
+                    {% endblock %}
+
+
+            
+
+
+        
+        
+                
+          
+
+                      
+                     

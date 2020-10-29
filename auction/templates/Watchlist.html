@@ -1,0 +1,139 @@
+{% extends "common.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block subtitle %}
+{{subtitle}}
+{% endblock %}
+
+{% block content %}
+
+  <div class="col">
+
+    {% for item in datalist %}
+    <div class="card col-sm-50">
+      <article>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}" class="card-img-top" target="_blank">
+            <img src="{{url_for('static', filename='datas/'+item.fileurl)}}" style="width:20vw;height:20vw;" alt="Rolex_oyster">
+          </a>
+          <h5>{{item.name}}</h5>
+          <p>{{item.description}}</p>
+          <p><b>Statu: {{item.status}}</p></b>
+          <span>
+            <a class="text-muted" href="javascript:void(0)">Keep Watching</a>
+          </span>
+          <span>
+            <a class="text-muted" href="javascript:void(0)" data-id="{{item.id}}" onclick="removeWatchlist(this)">______Delete Item</a>
+        </span>
+        </span>
+        <span>
+          <font size="2" color="grey">Add to list date: {{item.createtime}}</font>
+        </span>
+
+      </article>
+</div>
+    {% endfor %}
+
+    <!-- <div class="card col-sm-50">
+          <article>
+              <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Girard perregaux 1966 Skeleton.png" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+              <h5>Girard Perregaux 1966</h5>
+              <p>BLACK CHARM</p>
+              <p><b>Statu: Bidding</p></b>
+              <span>
+                <a class="text-muted" href="#">Keep Watching</a>
+              </span>
+              <span>
+                <a class="text-muted" href="#">______Delete Item</a>
+            </span>
+            </span>
+            <span>
+              <font size="2" color="grey">Add to list date: 13/09/2020 14:52:45</font>
+            </span>
+  
+          </article>
+    </div>
+  
+  
+    <div class="card col-sm-50">
+          <article>
+              <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Girard Perregaux 1966.png" style="width:20vw;height:20vw;" alt="rolex_ranbows"></a>
+              <h5>Girard Perregaux 1966</h5>
+              <p>MOONPHASE
+              </p>
+              <p><b>Statu: Completed</p></b>
+              <span>
+                <a class="text-muted" href="#">Keep Watching</a>
+              </span>
+              <span>
+                <a class="text-muted" href="#">______Delete Item</a>
+            </span>
+            </span>
+            <span>
+              <font size="2" color="grey">Add to list date: 13/09/2020 12:00:00</font>
+            </span>
+  
+          </article>
+    </div>
+  
+    <div class="card col-sm-50">
+          <article>
+              <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Lady_diver.png" style="width:20vw;height:20vw;" alt="Binger"></a>
+              <h5>Binger</h5>
+              <p>SILVER-GRAY MACHINERY</p>
+              <span>
+                <p><b>Statu: The seller pulled out of the bidding</p></b>
+                <a class="text-muted" href="#">Keep Watching</a>
+              </span>
+              <span>
+                <a class="text-muted" href="#">______Delete Item</a>
+            </span>
+            </span>
+            <span>
+              <font size="2" color="grey">Add to list date: 02/09/2020 15:34:00</font>
+            </span>
+  
+          </article>
+    </div>
+    <div class="card col-sm-50">
+          <article>
+              <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Omega Seamaster.png" style="width:20vw;height:20vw;" alt="Omega"></a>
+              <h5>Omega Seamaster Diver</h5>
+              <p>CO-AXIAL MASTER</p>
+              <b>Statu: Completed</p></b>
+              <span>
+                <a class="text-muted" href="#">Keep Watching</a>
+              </span>
+              <span>
+                <a class="text-muted" href="#">______Delete Item</a>
+            </span>
+            </span>
+            <span>
+              <font size="2" color="grey">Add to list date: 26/08/2020 18:03:45</font>
+            </span>
+    </div> -->
+  
+  </div>
+  </section>
+
+  <script>
+    function removeWatchlist(e){
+      console.log($(e).attr('data-id'));
+      let params={
+        id:$(e).attr('data-id')
+      }
+      $.post('/removewatchlist',params,function(data,status){
+        console.log(data);
+        if(data=='success'){
+          alert(data)
+          window.location.reload()
+        }else{
+         alert(data)
+        }
+      })
+    }
+  </script>
+
+  {% endblock %}

@@ -52,8 +52,7 @@ def authenticatebyregister(): #view function
             error='exist user name'
         if error is None:
             u2=User(user_name,generate_password_hash(password),email_id)
-            db.session.add(u2)
-            db.session.commit()
+            u2=savebyadd()
             return redirect(url_for('auth.authenticate'))
         else:
             flash(error)

@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from . import db
 
+import datetime
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -25,9 +27,54 @@ class User(db.Model):
             db.session.commit()
         except BaseException:
             db.session.rollback()
-            
-            
-    class WatchList(db.Model):
+
+
+# class Categort(db.Model):
+#     __tablename__="watchs"
+#     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+#     categort=db.Column(db.String(16),nullable=False)
+
+class Watch(db.Model):
+    __tablename__="watchs"
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    categortid=db.Column(db.String(16),nullable=False)
+    name=db.Column(db.String(36),nullable=False)
+    brand=db.Column(db.String(16),nullable=False)
+    size=db.Column(db.String(16),nullable=False)
+    price=db.Column(db.String(16),nullable=False)
+    condition=db.Column(db.String(16),nullable=False)
+    quantity=db.Column(db.Integer,nullable=False)
+    goline=db.Column(db.Boolean,default=False)
+    description=db.Column(db.Text)
+    fileurl=db.Column(db.String(36))
+    createtime=db.Column(db.DateTime,default=datetime.datetime.now())
+    status=db.Column(db.String(16),default='Bidding')
+    def __init__(self,categortid,name,brand,size,price,condition,quantity,goline,description,fileurl):
+        self.categortid=categortid
+        self.name=name
+        self.brand=brand
+        self.size=size
+        self.price=price
+        self.condition=condition
+        self.quantity=quantity
+        self.goline=goline
+        self.description=description
+        self.fileurl=fileurl
+    def get_id(self):
+        return self.id
+    def updatestatus(self,status):
+        self.status=status
+        return self.status
+    def savebyadd(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except BaseException:
+            db.session.rollback()
+
+
+
+class WatchList(db.Model):
     __tablename__="watchlist"
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     watchid=db.Column(db.Integer,db.ForeignKey('watchs.id'))
@@ -102,3 +149,4 @@ class Reviews(db.Model):
             db.session.commit()
         except BaseException:
             db.session.rollback()
+

@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template, jsonify,request
+from flask import Blueprint,render_template,jsonify,request
 from . import db
 bp = Blueprint('main', __name__)
 from flask_login import login_required,current_user,logout_user
@@ -9,6 +9,7 @@ from .models import Watch,WatchList,Cart,BidRecord,Reviews,User
 @bp.route('/')
 @bp.route('/index')
 @bp.route('/home')
+@login_required
 def index():
     username=''
     try:
@@ -16,6 +17,10 @@ def index():
     except Exception as e:
         print(e)
         pass
+    # u1 = Watch.query.filter(Watch.goline==True and Watch.status!='Completed').order_by(Watch.id.desc()).paginate(1,4,False).items
+    # u2 = Watch.query.filter(Watch.goline==True,Watch.status=='Bidding').order_by(Watch.id.desc()).paginate(2,4,False).items
+    # rs=db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(1,4,False).items
+    # print(rs)
     u1 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(1,4,False).items
     print(u1)
     u2 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(2,4,False).items
@@ -30,7 +35,7 @@ def itemcreation():
     except Exception as e:
         print(e)
         pass
-    return render_template('Item Creation.html',title='Watch detial page', subtitle='Listing Details',username=username))
+    return render_template('Item Creation.html',title='Watch detial page',subtitle='Listing Details',username=username)
 
 @bp.route('/detial')
 @login_required
@@ -52,7 +57,6 @@ def watchdetialpage():
     comment=db.session.query(Reviews.id,Reviews.watchid,Reviews.userid,Reviews.comment,Reviews.createtime,User.username).join(User,User.id==Reviews.userid).filter(Reviews.watchid==id).order_by(Reviews.createtime.desc()).all()
     print(comment)
     return render_template('Watch detial page.html',title='Watch detail page',subtitle='Luxury Watch Store',username=username,detail=detail,comment=comment)
-
 
 @bp.route('/list')
 @login_required
@@ -219,7 +223,7 @@ def logout():
     return jsonify(result)
 
 @bp.route('/upload', methods=['POST'])
-def UpLoad():  # upload images
+def UpLoad():  # 上传图片
     filename=''
     try:
         ufile = request.files['file']

@@ -9,17 +9,20 @@
         <a class="text-muted" href="{{ url_for('main.watchlist') }}">___Watchlist</a>
       </div>
       <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#">{% block subtitle %}{% endblock %}</a>
+        <a class="blog-header-logo text-dark" href="{{ url_for('main.index') }}">{% block subtitle %}{% endblock %}</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="text-muted" href="#" aria-label="Search">
+        <input type="text" class="form-control" id="keyword" placeholder="enter keyword" style="width:100px;">
+        <a class="text-muted" href="javascript:void(0)" aria-label="Search" onclick="sreachclick()">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
         </a>
         {% if not username %}
         <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('auth.authenticate') }}">Sign up</a>
         {% endif %}
         {% if username %}
-        <a class="btn btn-sm btn-outline-secondary" href="javascript:void(0)" onclick="logout()">{{username}}</a>
+        <a class="btn-outline-secondary" style="margin-right:10px;" href="javascript:void(0)">{{username}}</a>
+        <a class="btn btn-sm btn-outline-secondary" style="margin:0px 5px;width:150px;" href="{{ url_for('main.watchlistss') }}">my watch</a>
+        <a class="btn btn-sm btn-outline-secondary" href="javascript:void(0)" onclick="logout()">logout</a>
         {% endif %}
       </div>
     </div>
@@ -41,6 +44,13 @@
          alert(data)
         }
       })
+    }
+    function sreachclick(){
+      let keyword=$('#keyword').val()
+      if(keyword){
+        window.location.href='/lists?keyword='+keyword
+      }
+      
     }
   </script>
   <footer class="footer">

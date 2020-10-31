@@ -1,0 +1,61 @@
+{% extends "common.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block subtitle %}
+{{subtitle}}
+{% endblock %}
+
+{% block content %}
+
+  <div class="col">
+
+    {% for item in datalist %}
+    <div class="card col-sm-50">
+      <article>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}" class="card-img-top" target="_blank">
+            <img src="{{url_for('static', filename='datas/'+item.fileurl)}}" style="width:20vw;height:20vw;" alt="Rolex_oyster">
+          </a>
+          <h5>{{item.name}}</h5>
+          <p>{{item.description}}</p>
+          <p><b>Statu: {{item.status}}</p></b>
+          <span>
+            <a class="text-muted" href="javascript:void(0)" data-id="{{item.id}}" onclick="closeWatch(this)">close bid</a>
+          </span>
+          <!-- <span>
+            <a class="text-muted" href="javascript:void(0)" data-id="{{item.id}}" onclick="addCart(this)">Add to Cart</a>
+        </span> -->
+        </span>
+        <span>
+          <font size="2" color="grey">Add to list date: {{item.createtime}}</font>
+        </span>
+
+      </article>
+</div>
+    {% endfor %}
+
+  
+  </div>
+  </section>
+
+  <script>
+    function closeWatch(e){
+    console.log($(e).attr('data-id'));
+    let params={
+      id:$(e).attr('data-id')
+    }
+    $.post('/closewatch',params,function(data,status){
+      console.log(data);
+      if(data=='success'){
+        alert(data)
+        window.location.reload()
+      }else{
+       window.location.href='/login'
+      }
+    })
+  }
+  </script>
+
+  {% endblock %}

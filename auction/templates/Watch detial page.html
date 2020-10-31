@@ -27,9 +27,9 @@
     
     <nav class="nav">
         <a class="nav-link active" href="#">Category></a>
-        <a class="nav-link" href="#">Self winding></a>
+        <a class="nav-link" href="#">{{detail.categortid}}></a>
         <a class="nav-link" href="#">Brand></a>
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Girand Perregaux</a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{detail.brand}}</a>
       </nav>
       <section>
         <h2 style="text-align:center"><b> Girard Perregaux</b> </h2>
@@ -61,12 +61,19 @@
                             <div class="card row-md-4">
         
           
-                        <h4 style = "text-align: left">Current Price: $ {{detail.price}}</h4>
+                        <h4 style = "text-align: left">Current Price: $ {{maxprice}}</h4>
           
                         <h4 style = "text-align: left">Minimum bid: $ {{detail.price}}</h4>
                           <label for="Maximum">Enter you maximum bid:</label><span></span>
                           <textarea id="Maximum" rows="1" cols="1"></textarea>
-                          <a class="nav-link" href="javascript:void(0)">Place Bid</a>
+                          <a class="nav-link" href="javascript:void(0)" onclick="showrecordclick">Place Bid</a>
+                          <div class="bidrecord">
+                            <ul>
+                            {% for item in bidrecord %}
+                              <li>{{item.username}}: bid price $ {{item.price}}</li>
+                              {% endfor %}
+                            </ul>
+                          </div>
                           </div>
                       <span>
                         <button type="button" style="height:5vw; width:20vw" class="btn btn-outline-secondary" data-id="{{detail.id}}" onclick="bidWatch(this)">Bid It Now</button>
@@ -236,6 +243,9 @@
                            alert(data)
                           }
                         })
+                      }
+                      function showrecordclick(){
+                        $('.bidrecord').toggle()
                       }
                     </script>
 

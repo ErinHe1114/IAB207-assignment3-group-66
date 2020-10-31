@@ -21,7 +21,7 @@ class User(db.Model):
         self.email=email
     def get_id(self):
         return self.id
-    def savebyadd(self): 
+    def savebyadd(self):
         try:
             db.session.add(self)
             db.session.commit()
@@ -64,7 +64,18 @@ class Watch(db.Model):
         return self.id
     def updatestatus(self,status):
         self.status=status
+        try:
+            db.session.commit()
+        except BaseException:
+            db.session.rollback()
         return self.status
+    def updategoline(self,goline):
+        self.goline=goline
+        try:
+            db.session.commit()
+        except BaseException:
+            db.session.rollback()
+        return self.goline
     def savebyadd(self):
         try:
             db.session.add(self)
@@ -110,6 +121,25 @@ class Cart(db.Model):
         except BaseException:
             db.session.rollback()
 
+class MyWatch(db.Model):
+    __tablename__="mywatch"
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    watchid=db.Column(db.Integer,db.ForeignKey('watchs.id'))
+    userid=db.Column(db.Integer,db.ForeignKey('users.id'))
+    createtime=db.Column(db.DateTime,default=datetime.datetime.now())
+    def __init__(self,watchid,userid):
+        self.watchid=watchid
+        self.userid=userid
+    def get_id(self):
+        return self.id
+    def savebyadd(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except BaseException:
+            print('fail')
+            db.session.rollback()
+
 class BidRecord(db.Model):
     __tablename__="bidrecord"
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
@@ -149,4 +179,3 @@ class Reviews(db.Model):
             db.session.commit()
         except BaseException:
             db.session.rollback()
-

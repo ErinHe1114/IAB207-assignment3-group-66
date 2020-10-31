@@ -4,12 +4,11 @@ bp = Blueprint('main', __name__)
 from flask_login import login_required,current_user,logout_user
 import datetime
 import os
-from .models import Watch,WatchList,Cart,BidRecord,Reviews,User
+from .models import Watch,WatchList,Cart,BidRecord,Reviews,User,MyWatch
 
 @bp.route('/')
 @bp.route('/index')
 @bp.route('/home')
-@login_required
 def index():
     username=''
     try:
@@ -20,10 +19,11 @@ def index():
     # u1 = Watch.query.filter(Watch.goline==True and Watch.status!='Completed').order_by(Watch.id.desc()).paginate(1,4,False).items
     # u2 = Watch.query.filter(Watch.goline==True,Watch.status=='Bidding').order_by(Watch.id.desc()).paginate(2,4,False).items
     # rs=db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(1,4,False).items
+    # rs=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,BidRecord.watchid).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(Watch.id).all()
     # print(rs)
-    u1 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(1,4,False).items
-    print(u1)
-    u2 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(2,4,False).items
+    u1 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(Watch.id).paginate(1,4,False).items
+    # print(u1)
+    u2 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(Watch.id).paginate(2,4,False).items
     return render_template('Home_Page.html',title='HomePage-watch auction store',subtitle='Luxury Watch Store',username=username,u1=u1,u2=u2)
 
 @bp.route('/creation')
@@ -48,15 +48,17 @@ def watchdetialpage():
         print(e)
         pass
     if not id:
-        u1 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(1,4,False).items
+        u1 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(Watch.id).paginate(1,4,False).items
         print(u1)
-        u2 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(BidRecord.watchid).paginate(2,4,False).items
+        u2 = db.session.query(Watch.id,db.func.count(BidRecord.watchid),Watch.name,Watch.description,Watch.fileurl).outerjoin(BidRecord,Watch.id==BidRecord.watchid).filter(Watch.goline==True,Watch.status=='Bidding').group_by(Watch.id).paginate(2,4,False).items
         return render_template('Home_Page.html',title='HomePage-watch auction store',subtitle='Luxury Watch Store',username=username,u1=u1,u2=u2)
     
     detail=Watch.query.filter(Watch.id==id).first()
     comment=db.session.query(Reviews.id,Reviews.watchid,Reviews.userid,Reviews.comment,Reviews.createtime,User.username).join(User,User.id==Reviews.userid).filter(Reviews.watchid==id).order_by(Reviews.createtime.desc()).all()
-    print(comment)
-    return render_template('Watch detial page.html',title='Watch detail page',subtitle='Luxury Watch Store',username=username,detail=detail,comment=comment)
+    maxprice=db.session.query(BidRecord).filter(BidRecord.watchid==id).order_by(BidRecord.price.desc()).first()
+    bidrecordlist=db.session.query(BidRecord.id,User.id,User.username,BidRecord.price,BidRecord.createtime).filter(BidRecord.watchid==id).outerjoin(User,User.id==BidRecord.userid).order_by(BidRecord.createtime.desc()).all()
+    # print(bidrecordlist)
+    return render_template('Watch detial page.html',title='Watch detail page',subtitle='Luxury Watch Store',username=username,detail=detail,comment=comment,maxprice=maxprice.price if maxprice else 0,bidrecord=bidrecordlist)
 
 @bp.route('/list')
 @login_required
@@ -71,10 +73,41 @@ def watchlist():
     # watchlist=WatchList.query.filter(WatchList.userid==userid).all()
     # print(watchlist)
     # u1 = Watch.query.filter().order_by(Watch.id.desc()).all()
-    u1=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,WatchList.userid).join(WatchList,Watch.id==WatchList.watchid).filter(WatchList.userid==userid).all()
+    u1=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,WatchList.userid,Watch.status).join(WatchList,Watch.id==WatchList.watchid).filter(WatchList.userid==userid).all()
     # print(u1)
     return render_template('Watchlist.html',title='Wantchlist',subtitle='Watchlist',username=username,datalist=u1)
 
+@bp.route('/lists')
+def watchlists():
+    keyword=request.args.get('keyword')
+    username=''
+    try:
+        username=current_user.username
+    except Exception as e:
+        print(e)
+        pass
+    if keyword:
+        # print(1)
+        u1=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,WatchList.userid,Watch.status,Watch.createtime).outerjoin(WatchList,Watch.id==WatchList.watchid).filter(Watch.name.like('%{keyword}%'.format(keyword=keyword))).all()
+    else:
+        # print(2)
+        u1=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,WatchList.userid,Watch.status,Watch.createtime).outerjoin(WatchList,Watch.id==WatchList.watchid).all()
+    # print(u1)
+    return render_template('Watchlist2.html',title='Wantchlist',subtitle='Watchlist',username=username,datalist=u1)
+
+@bp.route('/listss')
+@login_required
+def watchlistss():
+    username=''
+    try:
+        username=current_user.username
+    except Exception as e:
+        print(e)
+        pass
+    userid=current_user.get_id()
+    u1=db.session.query(Watch.id,Watch.name,Watch.description,Watch.fileurl,MyWatch.userid,Watch.status,Watch.createtime).join(MyWatch,Watch.id==MyWatch.watchid).filter(MyWatch.userid==userid).all()
+    print(u1)
+    return render_template('Watchlist3.html',title='Wantchlist',subtitle='Watchlist',username=username,datalist=u1)
 
 @bp.route('/createwatch', methods=['POST'])
 @login_required
@@ -94,6 +127,11 @@ def createwatch():
         fileurl=form['fileurl']
         u2=Watch(categortid,name,brand,size,price,condition,quantity,goline,description,fileurl)
         u2.savebyadd()
+        userid=current_user.get_id()
+        id=u2.get_id()
+        u3=MyWatch(id,userid)
+        print(u3)
+        u3.savebyadd()
         result='success'
         pass
     except Exception as e:
@@ -214,6 +252,24 @@ def logout():
     result=''
     try:
         logout_user()
+        result='success'
+        pass
+    except Exception as e:
+        result='fail'
+        print(e)
+        pass
+    return jsonify(result)
+
+@bp.route('/closewatch', methods=['POST'])
+@login_required
+def closeWatch():
+    result=''
+    try:
+        form=request.form
+        id=form['id']
+        res=Watch.query.filter(Watch.id==id).first()
+        res.updategoline(False)
+        res.updatestatus('Completed')
         result='success'
         pass
     except Exception as e:

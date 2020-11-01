@@ -56,9 +56,12 @@ def watchdetialpage():
     detail=Watch.query.filter(Watch.id==id).first()
     comment=db.session.query(Reviews.id,Reviews.watchid,Reviews.userid,Reviews.comment,Reviews.createtime,User.username).join(User,User.id==Reviews.userid).filter(Reviews.watchid==id).order_by(Reviews.createtime.desc()).all()
     maxprice=db.session.query(BidRecord).filter(BidRecord.watchid==id).order_by(BidRecord.price.desc()).first()
+    price=maxprice.price if maxprice else 0
+    if detail and int(detail.price)>int(price):
+        price=detail.price
     bidrecordlist=db.session.query(BidRecord.id,User.id,User.username,BidRecord.price,BidRecord.createtime).filter(BidRecord.watchid==id).outerjoin(User,User.id==BidRecord.userid).order_by(BidRecord.createtime.desc()).all()
     # print(bidrecordlist)
-    return render_template('Watch detial page.html',title='Watch detail page',subtitle='Luxury Watch Store',username=username,detail=detail,comment=comment,maxprice=maxprice.price if maxprice else 0,bidrecord=bidrecordlist)
+    return render_template('Watch detial page.html',title='Watch detail page',subtitle='Luxury Watch Store',username=username,detail=detail,comment=comment,maxprice=price,bidrecord=bidrecordlist)
 
 @bp.route('/list')
 @login_required
@@ -211,15 +214,20 @@ def bidWatch():
     try:
         form=request.form
         id=form['id']
-        price=form['price']
+        price=int(form['price'])
         userid=current_user.get_id()
-        res=BidRecord.query.filter(BidRecord.watchid==id,BidRecord.userid==userid).first()
-        if not res is None:
-            db.session.delete(res)
-            db.session.commit()
-        u2=BidRecord(id,userid,price)
-        u2.savebyadd()
-        result='success'
+        u1=Watch.query.filter(Watch.id==id).first()
+        u2=db.session.query(BidRecord).filter(BidRecord.watchid==id).order_by(BidRecord.price.desc()).first()
+        if (u1 and int(u1.price)>price) or (u2 and int(u2.price)>price):
+            result='fail'
+        else:
+            res=BidRecord.query.filter(BidRecord.watchid==id,BidRecord.userid==userid).first()
+            if not res is None:
+                db.session.delete(res)
+                db.session.commit()
+            u2=BidRecord(id,userid,price)
+            u2.savebyadd()
+            result='success'
         pass
     except Exception as e:
         result='fail'

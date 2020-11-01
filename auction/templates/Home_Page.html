@@ -1,0 +1,334 @@
+{% extends "common.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block subtitle %}
+{{subtitle}}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Category</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Latest consignment</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Retro</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Limited edition</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Minimalist</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Self winding</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Military</a>
+      <a class="p-2 text-muted" href="{{ url_for('main.watchdetialpage',id=1) }}">Sport</a>
+    </nav>
+  </div>
+
+  <div class="jumbotron p-4 p-md-5 text-white rounded bg-secondary">
+    <div class="col-md-6 px-0">
+        <main>
+            
+            <img src="images/advs.jpg" alt="watche" style="width:1000px;">  
+      <h1 class="display-4 font-italic">Men's most irresistible watches</h1>
+      <p class="lead my-3">Automatic winding movement with hours, minutes, rotor in 5N gold and dizzy hands function</p>
+      <p class="lead mb-0"><a href="{{ url_for('main.watchdetialpage',id=1) }}" class="text-white font-weight-bold">Continue reading...</a></p>
+    </div>
+  </div></main>
+
+  <section>
+    <h2 style="text-align:center"><b> Valuable collection</b> </h2>
+    <p><b>Top 10 items with the highest number of bids so far</b></p>
+        
+  <div class="row">
+    {% for item in u1 %}
+    <div class="card col-sm-3">
+      <article>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}" class="card-img-top" target="_blank"><img src="{{url_for('static', filename='datas/'+item.fileurl)}}" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+          <h5>{{item.name}}</h5>
+          <p>{{item.description}}</p>
+          <span>
+            <a href="javascript:void(0)" data-id="{{item.id}}" onclick="addWatchlist(this)"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+              </svg> Add to Watchlist</a>
+          </span>
+          <span>
+            <a href="javascript:void(0)" data-id="{{item.id}}" onclick="addCart(this)"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+              </svg> Add to Cart</a>
+        </span>
+        <span>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}"><button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+          <font size="2" color="grey">{{item[1]}} people are bidding..</font>
+        </span>
+
+      </article>
+</div>
+    {% endfor %}
+  <!-- <div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Girard perregaux 1966 Skeleton.png" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+            <h5>Girard Perregaux 1966</h5>
+            <p>BLACK CHARM</p>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                  <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                </svg> Add to Watchlist</a>
+            </span>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                </svg> Add to Cart</a>
+          </span>
+          <span>
+            <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+            <font size="2" color="grey">29 people are bidding..</font>
+          </span>
+
+        </article>
+  </div>
+  <div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Girard Perregaux 1966.png" style="width:20vw;height:20vw;" alt="rolex_ranbows"></a>
+            <h5>Girard Perregaux 1966</h5>
+            <p>MOONPHASE
+            </p>
+            <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg> Add to Watchlist</a>
+              </span>
+              <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                  </svg> Add to Cart</a>
+            </span>
+            <span>
+                <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+                <font size="2" color="grey">20 people are bidding..</font>
+            </span>
+  
+
+        </article>
+  </div>
+
+  <div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Lady_diver.png" style="width:20vw;height:20vw;" alt="Binger"></a>
+            <h5>Binger</h5>
+            <p>SILVER-GRAY MACHINERY</p>
+            <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg> Add to Watchlist</a>
+              </span>
+              <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                  </svg> Add to Cart</a>
+            </span>
+            <span>
+                <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+                <font size="2" color="grey">17 people are bidding..</font>
+            </span>
+
+        </article>
+  </div>
+  <div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Omega Seamaster.png" style="width:20vw;height:20vw;" alt="Omega"></a>
+            <h5>Omega Seamaster Diver</h5>
+            <p>CO-AXIAL MASTER</p>
+            <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg> Add to Watchlist</a>
+              </span>
+              <span>
+                <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                  </svg> Add to Cart</a>
+            </span>
+            <span>
+                <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+                <font size="2" color="grey">17 people are bidding..</font>
+            </span>
+        </article>
+        
+  </div> -->
+
+</div>
+</section>
+
+<section>
+    
+  <div class="row">
+
+    {% for item in u2 %}
+    <div class="card col-sm-3">
+      <article>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}" class="card-img-top" target="_blank"><img src="{{url_for('static', filename='datas/'+item.fileurl)}}" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+          <h5>{{item.name}}</h5>
+          <p>{{item.description}}</p>
+          <span>
+            <a href="javascript:void(0)" data-id="{{item.id}}" onclick="addWatchlist(this)"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+              </svg> Add to Watchlist</a>
+          </span>
+          <span>
+            <a href="javascript:void(0)" data-id="{{item.id}}" onclick="addCart(this)"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+              </svg> Add to Cart</a>
+        </span>
+        <span>
+          <a href="{{ url_for('main.watchdetialpage',id=item.id) }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+          <font size="2" color="grey">{{item[1]}} people are bidding..</font>
+        </span>
+
+      </article>
+</div>
+    {% endfor %}
+
+  <!-- <div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Omega speedmaster.webp" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+            <h5>Omega Speedmaster</h5>
+            <p>MOONPHASE CHRONOGRAPH</p>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                  <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                </svg> Add to Watchlist</a>
+            </span>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                </svg> Add to Cart</a>
+          </span>
+          <span>
+            <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+            <font size="2" color="grey">11 people are bidding..</font>
+          </span>
+
+        </article>
+  </div>
+
+  <div class="card col-sm-3">
+    <article>
+        <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Bell&Roll.png" style="width:20vw;height:20vw;" alt="Bell&Roll"></a>
+        <h5>Bell & Roll BR 05</h5>
+        <p>SKELETON</p>
+        <span>
+          <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+              <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg> Add to Watchlist</a>
+        </span>
+        <span>
+          <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+            </svg> Add to Cart</a>
+      </span>
+      <span>
+        <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+        <font size="2" color="gery">8 people are bidding..</font>
+      </span>
+
+    </article>
+</div>
+
+<div class="card col-sm-3">
+        <article>
+            <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Bell&Roll 03-92.png" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+            <h5>Bell & Roll 03-92</h5>
+            <p>GOLEDEN HERITAGE</p>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                  <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                </svg> Add to Watchlist</a>
+            </span>
+            <span>
+              <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                </svg> Add to Cart</a>
+          </span>
+          <span>
+            <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+            <font size="2" color="gery">3 people are bidding..</font>
+          </span>
+
+        </article>
+  </div>
+
+  <div class="card col-sm-3">
+    <article>
+        <a href="{{ url_for('main.watchdetialpage') }}" class="card-img-top" target="_blank"><img src="images/Bell&Roll pink.png" style="width:20vw;height:20vw;" alt="Rolex_oyster"></a>
+        <h5>Bell & Roll Pink</h5>
+        <p>DIAMOND EAGLE</p>
+        <span>
+          <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+              <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg> Add to Watchlist</a>
+        </span>
+        <span>
+          <a href="#"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+            </svg> Add to Cart</a>
+      </span>
+      <span>
+        <a href="{{ url_for('main.watchdetialpage') }}" button type="button" class="btn btn-outline-dark">Bid It Now</button></a>
+        <font size="2" color="gery">2 people are bidding..</font>
+      </span>
+
+    </article>
+</div> -->
+
+
+</div>
+</section>
+
+<script>
+  function addWatchlist(e){
+    console.log($(e).attr('data-id'));
+    let params={
+      id:$(e).attr('data-id')
+    }
+    $.post('/addwatchlist',params,function(data,status){
+      console.log(data);
+      if(data=='success'){
+        alert(data)
+        window.location.reload()
+      }else{
+       window.location.href='/login'
+      }
+    })
+  }
+  function addCart(e){
+    console.log($(e).attr('data-id'));
+    let params={
+      id:$(e).attr('data-id')
+    }
+    $.post('/addcart',params,function(data,status){
+      console.log(data);
+      if(data=='success'){
+        alert(data)
+        window.location.reload()
+      }else{
+       window.location.href='/login'
+      }
+    })
+  }
+</script>
+
+
+
+{% endblock %}
